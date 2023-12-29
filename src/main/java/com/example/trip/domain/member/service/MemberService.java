@@ -40,4 +40,8 @@ public class MemberService {
         member.update(memberUpdateRequestDto);
         return member.toMemberResponseDto();
     }
+
+    public void delete(Long memberId) {
+        memberRepository.deleteById(memberId);
+    }
 }
