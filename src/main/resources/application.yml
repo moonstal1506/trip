@@ -9,5 +9,5 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: create #create update none
+      ddl-auto: update #create update none
 
