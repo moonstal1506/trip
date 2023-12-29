@@ -5,10 +5,7 @@ import com.example.trip.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "/api/member")
 @RequiredArgsConstructor
@@ -21,6 +18,11 @@ public class MemberController {
     public ResponseEntity<?> createMember(@RequestBody MemberCreateRequestDto memberCreateRequestDto){
         memberService.createMember(memberCreateRequestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{memberId}")
+    public ResponseEntity<?> findById(@PathVariable Long memberId){
+        return new ResponseEntity<>(memberService.findById(memberId), HttpStatus.OK);
     }
 
 }

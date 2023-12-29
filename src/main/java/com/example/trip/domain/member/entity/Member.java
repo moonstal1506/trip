@@ -1,5 +1,6 @@
 package com.example.trip.domain.member.entity;
 
+import com.example.trip.domain.member.dto.response.MemberResponseDto;
 import com.example.trip.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,4 +28,11 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false, length = 50)
     private String password;
 
+    public MemberResponseDto toMemberResponseDto() {
+        return MemberResponseDto.builder()
+                .memberId(memberId)
+                .email(email)
+                .name(name)
+                .build();
+    }
 }
