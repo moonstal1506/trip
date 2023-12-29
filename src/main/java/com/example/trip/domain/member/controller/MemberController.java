@@ -1,6 +1,8 @@
 package com.example.trip.domain.member.controller;
 
 import com.example.trip.domain.member.dto.request.MemberCreateRequestDto;
+import com.example.trip.domain.member.dto.request.MemberUpdateRequestDto;
+import com.example.trip.domain.member.dto.response.MemberResponseDto;
 import com.example.trip.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,12 @@ public class MemberController {
     @GetMapping("/{memberId}")
     public ResponseEntity<?> findById(@PathVariable Long memberId){
         return new ResponseEntity<>(memberService.findById(memberId), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{memberId}")
+    public ResponseEntity<?> updateMember(@PathVariable Long memberId, @RequestBody MemberUpdateRequestDto memberUpdateRequestDto){
+        MemberResponseDto memberResponseDto = memberService.updateMember(memberId, memberUpdateRequestDto);
+        return new ResponseEntity<>(memberResponseDto, HttpStatus.OK);
     }
 
 }

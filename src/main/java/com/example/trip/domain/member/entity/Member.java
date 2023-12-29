@@ -1,5 +1,6 @@
 package com.example.trip.domain.member.entity;
 
+import com.example.trip.domain.member.dto.request.MemberUpdateRequestDto;
 import com.example.trip.domain.member.dto.response.MemberResponseDto;
 import com.example.trip.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -34,5 +35,10 @@ public class Member extends BaseTimeEntity {
                 .email(email)
                 .name(name)
                 .build();
+    }
+
+    public void update(MemberUpdateRequestDto memberUpdateRequestDto) {
+        this.email = memberUpdateRequestDto.getEmail();
+        this.password = memberUpdateRequestDto.getPassword();
     }
 }
