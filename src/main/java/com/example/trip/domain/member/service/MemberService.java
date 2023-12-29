@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -29,6 +32,7 @@ public class MemberService {
         }
     }
 
+
     @Transactional(readOnly = true)
     public MemberResponseDto findById(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(IllegalArgumentException::new);
@@ -43,5 +47,10 @@ public class MemberService {
 
     public void delete(Long memberId) {
         memberRepository.deleteById(memberId);
+    }
+
+    public List<MemberResponseDto> findAllMember() {
+        return memberRepository.findAll().stream()
+                .map(member -> member.toMemberResponseDto()).collect(Collectors.toList());
     }
 }

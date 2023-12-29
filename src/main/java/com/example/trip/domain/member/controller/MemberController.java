@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping(value = "/api/member")
 @RequiredArgsConstructor
 @RestController
@@ -25,6 +27,12 @@ public class MemberController {
     @GetMapping("/{memberId}")
     public ResponseEntity<?> findById(@PathVariable Long memberId){
         return new ResponseEntity<>(memberService.findById(memberId), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> findAllMember(){
+        List<MemberResponseDto> memberResponseDtoList = memberService.findAllMember();
+        return new ResponseEntity<>(memberResponseDtoList, HttpStatus.OK);
     }
 
     @PatchMapping("/{memberId}")
