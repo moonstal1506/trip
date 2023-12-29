@@ -1,5 +1,7 @@
 package com.example.trip.domain.attraction.entity;
 
+import com.example.trip.domain.attraction.dto.request.AttractionUpdateRequestDto;
+import com.example.trip.domain.attraction.dto.response.AttractionResponseDto;
 import com.example.trip.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,4 +26,20 @@ public class Attraction extends BaseTimeEntity {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false, length = 10)
+    private String city;
+
+    public AttractionResponseDto toAttractionResponseDto() {
+        return AttractionResponseDto.builder()
+                .attractionId(attractionId)
+                .title(title)
+                .description(description)
+                .city(city)
+                .build();
+    }
+
+    public void update(AttractionUpdateRequestDto attractionUpdateRequestDto) {
+        this.description = attractionUpdateRequestDto.getDescription();
+        this.city = attractionUpdateRequestDto.getCity();
+    }
 }
