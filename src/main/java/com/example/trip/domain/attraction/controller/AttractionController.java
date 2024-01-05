@@ -1,6 +1,7 @@
 package com.example.trip.domain.attraction.controller;
 
 import com.example.trip.domain.attraction.dto.request.AttractionCreateRequestDto;
+import com.example.trip.domain.attraction.dto.request.AttractionRequestDto;
 import com.example.trip.domain.attraction.dto.request.AttractionUpdateRequestDto;
 import com.example.trip.domain.attraction.dto.response.AttractionResponseDto;
 import com.example.trip.domain.attraction.service.AttractionService;
@@ -30,13 +31,22 @@ public class AttractionController {
     }
 
     @GetMapping
-    public ResponseEntity<?> findAllAttraction(
+    public ResponseEntity<?> findAttraction(
             @PageableDefault(size = 2) Pageable pageable,
             @RequestParam(required = false) String city,
             @RequestParam(required = false) String title
     ) {
         System.out.println("title = " + title);
         return new ResponseEntity<>(attractionService.findAttraction(pageable, city, title), HttpStatus.OK);
+    }
+
+    @GetMapping("/v2")
+    public ResponseEntity<?> findAttraction2(
+            @PageableDefault(size = 2) Pageable pageable,
+            AttractionRequestDto attractionRequestDto
+    ) {
+        System.out.println("attractionRequestDto = " + attractionRequestDto);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @PatchMapping("/{attractionId}")
