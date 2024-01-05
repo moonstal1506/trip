@@ -6,11 +6,10 @@ import com.example.trip.domain.attraction.dto.response.AttractionResponseDto;
 import com.example.trip.domain.attraction.entity.Attraction;
 import com.example.trip.domain.attraction.repository.AttractionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @RequiredArgsConstructor
@@ -39,9 +38,8 @@ public class AttractionService {
         attractionRepository.deleteById(attractionId);
     }
 
-    public List<AttractionResponseDto> findAllAttraction() {
-        return attractionRepository.findAll().stream()
-                .map(attraction -> attraction.toAttractionResponseDto()).collect(Collectors.toList());
+    public Page<AttractionResponseDto> findAllAttraction(Pageable pageable) {
+        return attractionRepository.findAll(pageable).map(attraction -> attraction.toAttractionResponseDto());
     }
 
 }
