@@ -38,7 +38,16 @@ public class AttractionService {
         attractionRepository.deleteById(attractionId);
     }
 
-    public Page<AttractionResponseDto> findAllAttraction(Pageable pageable) {
+    public Page<AttractionResponseDto> findAttraction(Pageable pageable, String city, String title) {
+        if (title != null && city != null) {
+            return attractionRepository.findByCityAndTitleContaining(pageable, city, title).map(attraction -> attraction.toAttractionResponseDto());
+        }
+        if (title != null) {
+            return attractionRepository.findByTitleContaining(pageable, title).map(attraction -> attraction.toAttractionResponseDto());
+        }
+        if (city != null) {
+            return attractionRepository.findByCity(pageable, city).map(attraction -> attraction.toAttractionResponseDto());
+        }
         return attractionRepository.findAll(pageable).map(attraction -> attraction.toAttractionResponseDto());
     }
 

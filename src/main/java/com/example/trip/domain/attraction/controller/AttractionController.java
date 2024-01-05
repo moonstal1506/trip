@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RequestMapping(value = "/api/attraction")
 @RequiredArgsConstructor
 @RestController
@@ -21,29 +19,34 @@ public class AttractionController {
     private final AttractionService attractionService;
 
     @PostMapping
-    public ResponseEntity<?> createAttraction(@RequestBody AttractionCreateRequestDto attractionCreateRequestDto){
+    public ResponseEntity<?> createAttraction(@RequestBody AttractionCreateRequestDto attractionCreateRequestDto) {
         attractionService.createAttraction(attractionCreateRequestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/{attractionId}")
-    public ResponseEntity<?> findById(@PathVariable Long attractionId){
+    public ResponseEntity<?> findById(@PathVariable Long attractionId) {
         return new ResponseEntity<>(attractionService.findById(attractionId), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<?> findAllAttraction(@PageableDefault(size = 2) Pageable pageable){
-        return new ResponseEntity<>(attractionService.findAllAttraction(pageable), HttpStatus.OK);
+    public ResponseEntity<?> findAllAttraction(
+            @PageableDefault(size = 2) Pageable pageable,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String title
+    ) {
+        System.out.println("title = " + title);
+        return new ResponseEntity<>(attractionService.findAttraction(pageable, city, title), HttpStatus.OK);
     }
 
     @PatchMapping("/{attractionId}")
-    public ResponseEntity<?> updateAttraction(@PathVariable Long attractionId, @RequestBody AttractionUpdateRequestDto attractionUpdateRequestDto){
+    public ResponseEntity<?> updateAttraction(@PathVariable Long attractionId, @RequestBody AttractionUpdateRequestDto attractionUpdateRequestDto) {
         AttractionResponseDto attractionResponseDto = attractionService.updateAttraction(attractionId, attractionUpdateRequestDto);
         return new ResponseEntity<>(attractionResponseDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{attractionId}")
-    public ResponseEntity<?> deleteMember(@PathVariable Long attractionId){
+    public ResponseEntity<?> deleteMember(@PathVariable Long attractionId) {
         attractionService.delete(attractionId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
