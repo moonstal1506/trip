@@ -1,6 +1,7 @@
 package com.example.trip.domain.attraction.service;
 
 import com.example.trip.domain.attraction.dto.request.AttractionCreateRequestDto;
+import com.example.trip.domain.attraction.dto.request.AttractionRequestDto;
 import com.example.trip.domain.attraction.dto.request.AttractionUpdateRequestDto;
 import com.example.trip.domain.attraction.dto.response.AttractionResponseDto;
 import com.example.trip.domain.attraction.entity.Attraction;
@@ -51,4 +52,10 @@ public class AttractionService {
         return attractionRepository.findAll(pageable).map(attraction -> attraction.toAttractionResponseDto());
     }
 
+
+    public Page<AttractionResponseDto> findAttraction(Pageable pageable, AttractionRequestDto attractionRequestDto) {
+        return attractionRepository
+                .findAttraction(pageable, attractionRequestDto)
+                .map(attraction -> attraction.toAttractionResponseDto());
+    }
 }

@@ -46,7 +46,7 @@ public class AttractionController {
             AttractionRequestDto attractionRequestDto
     ) {
         System.out.println("attractionRequestDto = " + attractionRequestDto);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(attractionService.findAttraction(pageable, attractionRequestDto), HttpStatus.OK);
     }
 
     @PatchMapping("/{attractionId}")
