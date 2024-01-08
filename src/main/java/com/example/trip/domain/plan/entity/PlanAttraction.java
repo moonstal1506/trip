@@ -27,4 +27,11 @@ public class PlanAttraction extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attraction_id", nullable = false)
     private Attraction attraction;
+
+    public static PlanAttraction create(Plan plan, Attraction attraction) {
+        return PlanAttraction.builder()
+                .plan(plan)
+                .attraction(attraction)
+                .build();
+    }
 }

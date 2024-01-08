@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 @AllArgsConstructor
@@ -21,6 +23,9 @@ public class Plan extends BaseTimeEntity {
 
     @Column(nullable = false, length = 20)
     private String title;
+
+    @Column(nullable = false)
+    private LocalDateTime date;
 
     @Column(nullable = false)
     private String memo;
