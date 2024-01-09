@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface PlanRepository extends JpaRepository<Plan, Long> {
 
     // JPQL
@@ -15,4 +17,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
     // EntityGraph
     @EntityGraph(attributePaths = "member")
     Page<Plan> findAll(Pageable pageable);
+
+    @EntityGraph(attributePaths = "planAttractions.attraction")
+    Optional<Plan> findById(Long planId);
 }
