@@ -25,4 +25,9 @@ public class PlanController {
     public ResponseEntity<?> findPlans(@PageableDefault(size = 2) Pageable pageable) {
         return new ResponseEntity<>(planService.findPlanList(pageable), HttpStatus.OK);
     }
+
+    @GetMapping("/{planId}")
+    public ResponseEntity<?> findById(@PathVariable Long planId) {
+        return new ResponseEntity<>(planService.findById(planId), HttpStatus.OK);
+    }
 }

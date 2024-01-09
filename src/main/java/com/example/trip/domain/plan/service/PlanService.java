@@ -6,6 +6,7 @@ import com.example.trip.domain.member.entity.Member;
 import com.example.trip.domain.member.repository.MemberRepository;
 import com.example.trip.domain.plan.dto.request.PlanCreateRequestDto;
 import com.example.trip.domain.plan.dto.response.PlanListResponseDto;
+import com.example.trip.domain.plan.dto.response.PlanResponseDto;
 import com.example.trip.domain.plan.entity.Plan;
 import com.example.trip.domain.plan.entity.PlanAttraction;
 import com.example.trip.domain.plan.repository.PlanAttractionRepository;
@@ -57,5 +58,11 @@ public class PlanService {
     public Page<PlanListResponseDto> findPlanList(Pageable pageable) {
         return planRepository.findAll(pageable)
                 .map(plan -> plan.toPlanListResponseDto());
+    }
+
+    @Transactional(readOnly = true)
+    public PlanResponseDto findById(Long planId) {
+        Plan plan = planRepository.findById(planId).orElseThrow(IllegalArgumentException::new);
+        return plan.toPlanResponseDto();
     }
 }
