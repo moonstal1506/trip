@@ -55,8 +55,7 @@ public class PlanService {
     }
 
     public Page<PlanListResponseDto> findPlanList(Pageable pageable) {
-        return planRepository
-                .findAll(pageable)
+        return planRepository.findAll(pageable)
                 .map(plan -> plan.toPlanListResponseDto());
     }
 }
