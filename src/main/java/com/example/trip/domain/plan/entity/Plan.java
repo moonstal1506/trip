@@ -1,6 +1,7 @@
 package com.example.trip.domain.plan.entity;
 
 import com.example.trip.domain.member.entity.Member;
+import com.example.trip.domain.plan.dto.response.PlanListResponseDto;
 import com.example.trip.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,4 +35,13 @@ public class Plan extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    public PlanListResponseDto toPlanListResponseDto() {
+        return PlanListResponseDto.builder()
+                .planId(planId)
+                .title(title)
+                .name(member.getName())
+                .createdDate(getCreatedDate())
+                .build();
+    }
 }

@@ -5,11 +5,14 @@ import com.example.trip.domain.attraction.repository.AttractionRepository;
 import com.example.trip.domain.member.entity.Member;
 import com.example.trip.domain.member.repository.MemberRepository;
 import com.example.trip.domain.plan.dto.request.PlanCreateRequestDto;
+import com.example.trip.domain.plan.dto.response.PlanListResponseDto;
 import com.example.trip.domain.plan.entity.Plan;
 import com.example.trip.domain.plan.entity.PlanAttraction;
 import com.example.trip.domain.plan.repository.PlanAttractionRepository;
 import com.example.trip.domain.plan.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,5 +52,11 @@ public class PlanService {
         planAttractionRepository.saveAll(planAttractions);
 
         return plan.getPlanId();
+    }
+
+    public Page<PlanListResponseDto> findPlanList(Pageable pageable) {
+        return planRepository
+                .findAll(pageable)
+                .map(plan -> plan.toPlanListResponseDto());
     }
 }

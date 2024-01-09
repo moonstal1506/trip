@@ -3,12 +3,11 @@ package com.example.trip.domain.plan.controller;
 import com.example.trip.domain.plan.dto.request.PlanCreateRequestDto;
 import com.example.trip.domain.plan.service.PlanService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "/api/plan")
 @RequiredArgsConstructor
@@ -18,8 +17,12 @@ public class PlanController {
     private final PlanService planService;
 
     @PostMapping
-    public ResponseEntity<?> createAttraction(@RequestBody PlanCreateRequestDto planCreateRequestDto) {
+    public ResponseEntity<?> createPlan(@RequestBody PlanCreateRequestDto planCreateRequestDto) {
         return new ResponseEntity<>(planService.createPlan(planCreateRequestDto), HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<?> findPlans(@PageableDefault(size = 2) Pageable pageable) {
+        return new ResponseEntity<>(planService.findPlanList(pageable), HttpStatus.OK);
+    }
 }
