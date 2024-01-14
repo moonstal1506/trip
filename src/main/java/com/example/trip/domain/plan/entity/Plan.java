@@ -1,6 +1,7 @@
 package com.example.trip.domain.plan.entity;
 
 import com.example.trip.domain.member.entity.Member;
+import com.example.trip.domain.plan.dto.request.PlanUpdateRequestDto;
 import com.example.trip.domain.plan.dto.response.PlanListResponseDto;
 import com.example.trip.domain.plan.dto.response.PlanResponseDto;
 import com.example.trip.global.entity.BaseTimeEntity;
@@ -62,5 +63,15 @@ public class Plan extends BaseTimeEntity {
                         .map(planAttraction -> planAttraction.getAttraction().toPlanAttractionResponseDto())
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    public void update(PlanUpdateRequestDto planUpdateRequestDto, List<PlanAttraction> attractionPlan) {
+        this.title = planUpdateRequestDto.getTitle();
+        this.memo = planUpdateRequestDto.getMemo();
+        this.date = planUpdateRequestDto.getDate();
+
+        // 기존의 planAttractions를 제거하고 새로운 attractionPlan을 추가
+        this.planAttractions.clear();
+        this.planAttractions.addAll(attractionPlan);
     }
 }

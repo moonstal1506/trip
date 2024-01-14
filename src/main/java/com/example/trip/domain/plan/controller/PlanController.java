@@ -1,6 +1,7 @@
 package com.example.trip.domain.plan.controller;
 
 import com.example.trip.domain.plan.dto.request.PlanCreateRequestDto;
+import com.example.trip.domain.plan.dto.request.PlanUpdateRequestDto;
 import com.example.trip.domain.plan.service.PlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -29,5 +30,10 @@ public class PlanController {
     @GetMapping("/{planId}")
     public ResponseEntity<?> findById(@PathVariable Long planId) {
         return new ResponseEntity<>(planService.findById(planId), HttpStatus.OK);
+    }
+
+    @PatchMapping
+    public ResponseEntity<?> updatePlan(@RequestBody PlanUpdateRequestDto planUpdateRequestDto) {
+        return new ResponseEntity<>(planService.updatePlan(planUpdateRequestDto), HttpStatus.CREATED);
     }
 }

@@ -5,6 +5,7 @@ import com.example.trip.domain.attraction.repository.AttractionRepository;
 import com.example.trip.domain.member.entity.Member;
 import com.example.trip.domain.member.repository.MemberRepository;
 import com.example.trip.domain.plan.dto.request.PlanCreateRequestDto;
+import com.example.trip.domain.plan.dto.request.PlanUpdateRequestDto;
 import com.example.trip.domain.plan.dto.response.PlanListResponseDto;
 import com.example.trip.domain.plan.dto.response.PlanResponseDto;
 import com.example.trip.domain.plan.entity.Plan;
@@ -41,15 +42,7 @@ public class PlanService {
         planRepository.save(plan);
 
         // 계획에 들어가는 여행지 저장
-        List<PlanAttraction> planAttractions = new ArrayList<>();
-        for (Long attractionId : planCreateRequestDto.getAttractionIdList()) {
-            Attraction attraction = attractionRepository
-                    .findById(attractionId)
-                    .orElseThrow(IllegalArgumentException::new);
-
-            PlanAttraction planAttraction = PlanAttraction.create(plan, attraction);
-            planAttractions.add(planAttraction);
-        }
+        List<PlanAttraction> planAttractions = createAttractionPlan(plan, planCreateRequestDto.getAttractionIdList());
         planAttractionRepository.saveAll(planAttractions);
 
         return plan.getPlanId();
@@ -64,5 +57,30 @@ public class PlanService {
     public PlanResponseDto findById(Long planId) {
         Plan plan = planRepository.findById(planId).orElseThrow(IllegalArgumentException::new);
         return plan.toPlanResponseDto();
+    }
+
+    public PlanResponseDto updatePlan(PlanUpdateRequestDto planUpdateRequestDto) {
+        Plan plan = planRepository.findById(planUpdateRequestDto.getPlanId())
+                .orElseThrow(IllegalArgumentException::new);
+
+        // 계획에 들어가는 여행지 저장
+        List<PlanAttraction> attractionPlan = createAttractionPlan(plan, planUpdateRequestDto.getAttractionIdList());
+
+        plan.update(planUpdateRequestDto, attractionPlan);
+
+        return plan.toPlanResponseDto();
+    }
+
+    private List<PlanAttraction> createAttractionPlan(Plan plan, List<Long> attractionIdList) {
+        List<PlanAttraction> planAttractions = new ArrayList<>();
+        for (Long attractionId : attractionIdList) {
+            Attraction attraction = attractionRepository
+                    .findById(attractionId)
+                    .orElseThrow(IllegalArgumentException::new);
+
+            PlanAttraction planAttraction = PlanAttraction.create(plan, attraction);
+            planAttractions.add(planAttraction);
+        }
+        return planAttractions;
     }
 }
