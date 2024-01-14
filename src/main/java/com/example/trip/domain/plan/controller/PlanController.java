@@ -36,4 +36,10 @@ public class PlanController {
     public ResponseEntity<?> updatePlan(@RequestBody PlanUpdateRequestDto planUpdateRequestDto) {
         return new ResponseEntity<>(planService.updatePlan(planUpdateRequestDto), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{planId}")
+    public ResponseEntity<?> deleteById(@PathVariable Long planId) {
+        planService.deleteById(planId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

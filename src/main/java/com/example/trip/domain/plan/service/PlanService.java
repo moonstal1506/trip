@@ -83,4 +83,8 @@ public class PlanService {
         }
         return planAttractions;
     }
+
+    public void deleteById(Long planId) {
+        planRepository.deleteById(planId);
+    }
 }
